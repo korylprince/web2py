@@ -120,6 +120,8 @@ class HTTP(Exception):
                 rheaders += [(k, str(item)) for item in v]
             elif v is not None:
                 rheaders.append((k, str(v)))
+        for k, v in iteritems(rheaders):
+            rheaders[k] = re.sub(r"\r\n", "", v)
         responder(status, rheaders)
         if env.get('request_method', '') == 'HEAD':
             return [to_bytes('')]
